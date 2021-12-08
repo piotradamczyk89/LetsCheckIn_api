@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoRepository;
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
+import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import java.io.IOException;
@@ -42,5 +43,10 @@ public class ApartmentServiceImpl implements ApartmentService{
     @Override
     public Apartment getById(Long apartment_id) {
         return apartmentRepository.getById(apartment_id);
+    }
+
+    @Override
+    public List<Apartment> findByOwner(User owner) {
+        return apartmentRepository.findByOwner(owner);
     }
 }

@@ -28,7 +28,7 @@
                     <div class="card mb-3" style="max-width: 720px;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="<c:url value="/home/piotr/CodersLAB/LetsCheckIn_pictures/${apartment.photos.get(0).id}"/>" class="img-fluid rounded-start" alt="...">
+                                <img src="<c:url value="../../../img/LetsCheckIn_pictures/${apartment.photos.get(0).id}"/>" class="img-fluid rounded-start" alt="...">
                             </div>
                             <div class="col-md-4">
                                 <div class="card-body">

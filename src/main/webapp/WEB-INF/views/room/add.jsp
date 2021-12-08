@@ -27,38 +27,11 @@
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <form:form id="formRoom" modelAttribute="room" enctype="multipart/form-data" method="post">
-                <label> <spring:message code="HowMayPersonInRoom"/>
-                  <form:input type="number" path="persons" class="form-control"/>
-                </label>
-                <label> <spring:message code="SingleBed"/>
-                  <form:input type="number" path="singleBed" class="form-control"/>
-                </label>
-                <label> <spring:message code="doubleBed"/>
-                  <form:input type="number" path="doubleBed" class="form-control"/>
-                </label>
-                <label> Ilość rozkładanych kanap
-                  <form:input type="number" path="coach" class="form-control"/>
-                </label>
-                <label> Cana za wynajęcia pokoju
-                  <form:input type="number" path="roomPrice" class="form-control"/>
-                </label>
-                <div class="form-check form-switch">
-                  <form:checkbox path="withOwnBathroom" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój posiada własną łazienkę?</label>
-                </div>
-                <div class="form-check form-switch">
-                  <form:checkbox path="withKitchenAnex" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy salon jest połączony z kuchnią?</label>
-                </div>
-                <div class="form-check form-switch">
-                  <form:checkbox path="interconnecting" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój jest przechodni?</label>
-                </div>
-                              <div class="form-check form-switch">
-                  <form:checkbox path="isBalcony" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój ma balkon?</label>
-                </div><br><br>
-
+                <h5 class="card-title align-items-center">
+                  <h5 class="card-title">Pokój ${apartment.rooms.size()+1}</h5>
+                </h5>
+                <form:hidden path="apartment" value="${apartment.id}"/>
+                <c:if test="${apartment.rentWay.id==3}">
                 <div class="mb-3">
                   <label for="formFileMultiple" class="form-label"><spring:message
                           code="UpladPicture"/>
@@ -69,16 +42,60 @@
                     </div>
                   </label>
                 </div>
+                </c:if>
+                <label> Nazwa pokoju
+                  <form:select items="${roomName}" path="roomName" itemLabel="name" itemValue="id"/>
+                </label>
+                <c:if test="${apartment.rentWay.id==3}">
+                  <label> Cena za wynajęcia pokoju
+                    <form:input type="number" path="roomPrice" class="form-control"/>
+                  </label>
+                </c:if>
+                <c:if test="${apartment.rentWay.id!=2}">
+                <label> <spring:message code="HowMayPersonInRoom"/>
+                  <form:input type="number" path="persons" class="form-control" required="required"/>
+                </label>
+                </c:if>
+                <label> <spring:message code="SingleBed"/>
+                  <form:input type="number" path="singleBed" class="form-control"/>
+                </label>
+                <label> <spring:message code="doubleBed"/>
+                  <form:input type="number" path="doubleBed" class="form-control"/>
+                </label>
+                <label> Ilość rozkładanych kanap
+                  <form:input type="number" path="coach" class="form-control"/>
+                </label>
+                <div class="form-check form-switch">
+                  <form:checkbox path="withOwnBathroom" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój posiada własną łazienkę?</label>
+                </div>
+                <div class="form-check form-switch">
+                  <form:checkbox path="withKitchenAnex" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój jest połączony z kuchnią?</label>
+                </div>
+                <div class="form-check form-switch">
+                  <form:checkbox path="interconnecting" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój jest przechodni?</label>
+                </div>
+                              <div class="form-check form-switch">
+                  <form:checkbox path="isBalcony" class="form-check-input" role="switch" id="flexSwitchCheckDefault"/>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Czy pokój ma balkon?</label>
+                </div><br><br>
+
+
+                <div class="row g-0 align-items-center">
+                  <button id="formSubmited" type="submit" class="btn btn-secondary"><spring:message code="Send"/></button>
+                </div>
               </form:form>
             </div>
+
           </div>
-
+          <div class="mx-auto" style="width: 200px;">
+            <a href="/apartment/edit/${apartment.id}" class="btn btn-danger">ZAKOŃCZ EDYTOR POKOI</a>
+          </div>
         </div>
-        <%--                </c:forEach>--%>
-
-        <%--</a>--%>
       </div>
-      <button id="formSubmited" type="button" class="btn btn-secondary"><spring:message code="Send"/></button>
+
 
     </div>
   </section>

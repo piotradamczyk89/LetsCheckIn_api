@@ -28,10 +28,11 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public void addPictureAndSave(MultipartFile photos, Room room) throws IOException {
-        String uploadDir = "../LetsCheckIn_pictures/";
+    public void addPictureAndSave(MultipartFile photos, Room room, Apartment apartment) throws IOException {
+        String uploadDir = "src/main/webapp/img/LetsCheckIn_pictures";
         Photo photo = new Photo();
         photo.setRoom(room);
+        photo.setApartment(apartment);
         photoService.savePhoto(photo);
         FileUploadUtil.saveFile(uploadDir, photo.getId()+"", photos);
     }

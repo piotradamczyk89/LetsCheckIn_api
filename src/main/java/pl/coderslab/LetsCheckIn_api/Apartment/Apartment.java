@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
+import pl.coderslab.LetsCheckIn_api.RentWay.RentWay;
 import pl.coderslab.LetsCheckIn_api.Room.Room;
 import pl.coderslab.LetsCheckIn_api.User.User;
 
@@ -31,6 +32,9 @@ public class Apartment {
     private List<Photo> photos;
 
     private String name;
+
+    @ManyToOne
+    private RentWay rentWay;
 
     @ManyToOne
     private Country country;

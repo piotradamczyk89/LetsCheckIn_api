@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
+import pl.coderslab.LetsCheckIn_api.RoomName.RoomName;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,8 +19,8 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
+    @ManyToOne
+    private RoomName roomName;
     private Integer persons;
     private Integer singleBed;
     private Integer doubleBed;

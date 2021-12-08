@@ -21,10 +21,10 @@
     </section><!-- End Breadcrumbs -->
 
     <section class="inner-page">
-        <div class="container">
-            <div class="card mb-3" style="max-width: 920px;">
-                <form:form modelAttribute="apartment">
-                    <div class="row g-0">
+        <div class="container ">
+            <div class="card mb-3 align-items-center" style="max-width: 920px; ">
+                <form:form modelAttribute="apartment" method="post" enctype="multipart/form-data">
+                    <div class="row g-0 align-items-center">
                         <div class="col-md-4">
                             <div class="card-body">
                                 <h5 class="card-title">
@@ -36,8 +36,14 @@
                                     <form:input path="name"/>
                                     </div>
                                 <div>
+                                    <c:if test="${apartment.rentWay.id==1}">
                                     <spring:message code="DayPrice"/><br>
-                                    <form:input path="apartmentPrice"/> <br>
+                                        <form:input path="apartmentPrice"/> <br>
+                                    </c:if>
+                                    <c:if test="${apartment.rentWay.id==2}">
+                                        Cena za miesiąc<br>
+                                        <form:input path="apartmentPrice"/> <br>
+                                    </c:if>
                                 </div>
                                 </p>
                             </div>
@@ -67,12 +73,6 @@
 
 
                     </div>
-                    <%--                        <div class="col-md-4 row align-items-center">--%>
-                    <%--                            <a href="/apartment/edit/${apartment.id}" class="btn btn-info"><spring:message--%>
-                    <%--                                    code="Details"/></a>--%>
-                    <%--                            <a href="/room/add/${apartment.id}" class="btn btn-success"><spring:message--%>
-                    <%--                                    code="Details"/></a>--%>
-                    <%--                        </div>--%>
 
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -80,12 +80,14 @@
                                 <h5 class="card-title">Szczegóły Obiektu</h5>
                                 <h5><spring:message code="RoomAmount"/> ${apartment.rooms.size()}</h5>
                                 <p class="card-text">
+                                    <c:if test="${apartment.rentWay.id!=3}">
                                     <label>Liczba Toalet:
                                         <form:input type="text" path="toilets" class="form-control"/>
                                     </label>
                                     <label>Powierzchnia obiektu
                                         <form:input type="text" path="area" class="form-control"/>
                                     </label>
+                                    </c:if>
                                 </p>
                             </div>
                         </div>
@@ -104,7 +106,6 @@
                             <a href="/room/add/${apartment.id}" class="btn btn-success">Dodaj pokój</a>
                         </div>
                     </div>
-
                 </form:form>
             </div>
 

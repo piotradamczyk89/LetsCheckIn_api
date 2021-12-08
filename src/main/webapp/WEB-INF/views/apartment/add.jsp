@@ -23,7 +23,13 @@
             <h3>
                 <spring:message code="ApartemntAdding"/>
             </h3>
-            <form:form method="post" enctype="multipart/form-data" modelAttribute="apartment">
+
+            <form:form method="post" enctype="multipart/form-data" modelAttribute="apartment" id="formApartment">
+                <div class="mb-3">
+                    <label> Jak chcesz wynajmować apartament
+                        <form:select id="rentWay" items="${rentWay}" path="rentWay"  itemLabel="name"  itemValue="id"/>
+                    </label>
+                </div>
                 <div class="mb-3">
                     <label class="col-sm-2 col-form-label"><spring:message code="Cuntry.select"/>
                         <form:select path="country" items="${country}" itemLabel="country" itemValue="id" />
@@ -41,21 +47,21 @@
                         <form:input type="text" path="address" class="form-control"/>
                     </label>
                 </div>
+
+
+
                 <div class="mb-3">
                     <label> <spring:message code="ObjectName"/>
                         <form:input type="text" path="name" class="form-control"/>
                     </label>
                 </div>
+                <div id="notAlways">
                 <div class="mb-3">
-                    <label> <spring:message code="DayPrice"/>
-                        <form:input type="number" path="apartmentPrice" class="form-control"/>
+                    <label><p id="Price1" class=""> <spring:message code="DayPrice"/></p>
+                        <p id="Price2" class="visually-hidden"> Cena za miesiąc</p>
+                        <form:input id="priceInput" path="apartmentPrice" class="form-control"/>
                     </label>
                 </div>
-                <%--            <div class="mb-3">--%>
-                <%--                <label> <spring:message code="RoomAmount"/>--%>
-                <%--                    <form:input type="number" path="roomAmount" class="form-control"/>--%>
-                <%--                </label>--%>
-                <%--            </div>--%>
                 <div class="mb-3">
                     <label> Powierzchnia
                         <form:input path="area" class="form-control"/>
@@ -66,7 +72,8 @@
                         <form:input path="toilets" class="form-control"/>
                     </label>
                 </div>
-                <div class="lg-3">
+                </div>
+                <div class="lg-3" id="before">
                     <label class="form-label"><spring:message code="ObjectDescription"/>
                         <form:textarea class="form-control" rows="3" path="description"></form:textarea>
                     </label>
