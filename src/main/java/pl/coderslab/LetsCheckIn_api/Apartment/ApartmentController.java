@@ -65,22 +65,12 @@ public class ApartmentController {
                           @AuthenticationPrincipal CurrentUser currentUser) throws IOException {
         apartment.setOwner(currentUser.getUser());
         apartmentService.saveApartment(apartment);
-        if (pictures.get(0).getSize() != 0) {
-            pictures.forEach(it -> {
-                try {
-                    apartmentService.addPictureAndSave(it, apartment);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        if (apartment.getRentWay().getId()==3) {
-            return "redirect:/room/add"+apartment.getId();
-        }
+        apartmentService.addPictureAndSave(pictures,apartment);
         return "redirect:/apartment/details/"+apartment.getId();
     }
     @RequestMapping("/edit/{apartmentId}")
     public String editForm(@PathVariable Long apartmentId, Model model) {
+
         model.addAttribute("apartment",apartmentService.getById(apartmentId));
         model.addAttribute("country",countryRepository.findAll());
         return "/apartment/edit";
@@ -92,13 +82,11 @@ public class ApartmentController {
     }
 
 
-
-
-
-
-
     @RequestMapping("/details/{apartmentId}")
-    public String details(@PathVariable Long apartmentId, Model model) {
+    public String details(@PathVariable Long apartmentId, Model model, @AuthenticationPrincipal (errorOnInvalidType = false) CurrentUser currentUser) {
+        if (currentUser!=null) {
+            model.addAttribute("userId", currentUser.getUser().getId());
+        }
         model.addAttribute("apartment",apartmentService.getById(apartmentId));
         return "/apartment/details";
     }

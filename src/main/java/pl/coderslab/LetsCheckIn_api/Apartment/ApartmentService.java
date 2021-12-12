@@ -10,7 +10,7 @@ import java.util.List;
 public interface ApartmentService {
     List<Apartment> apartmentsFromSearch (String country,String city, Long person);
     void saveApartment (Apartment apartment);
-    void addPictureAndSave (MultipartFile photo, Apartment apartment) throws IOException;
+    void addPictureAndSave (List <MultipartFile> photos, Apartment apartment);
     Apartment getById (Long apartment_id);
     List<Apartment> findByOwner (User owner);
 }

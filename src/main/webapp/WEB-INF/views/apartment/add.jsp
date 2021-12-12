@@ -82,8 +82,8 @@
                     <label for="formFileMultiple" class="form-label"><spring:message code="UpladPicture"/>
                         <input class="form-control" type="file" id="formFileMultiple" multiple name="pictures"
                                accept="image/png, image/jpeg"/>
-                        <div id="outputDiv" class="container-sm" style="max-width: 300px;">
-                            <img id="output" class="img-fluid img-thumbnail"/>
+                        <div class="row justify-content-md-center" id="outputDivCol">
+                                <%--                    tutaj dodaja sie obrazki--%>
                         </div>
                     </label>
                 </div>

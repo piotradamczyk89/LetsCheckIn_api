@@ -10,6 +10,10 @@ import pl.coderslab.LetsCheckIn_api.Room.Room;
 import pl.coderslab.LetsCheckIn_api.User.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -31,6 +35,8 @@ public class Apartment {
     @OneToMany(mappedBy = "apartment")
     private List<Photo> photos;
 
+    @NotNull
+    @NotBlank
     private String name;
 
     @ManyToOne
@@ -38,17 +44,22 @@ public class Apartment {
 
     @ManyToOne
     private Country country;
-
+    @NotNull
+    @NotBlank
     private String city;
     private String description;
 
+    @Min(value = 1)
     private Integer toilets;
+    @Min(value = 1)
     private Double area;
+    @DecimalMin(value = "0")
     private BigDecimal apartmentPrice;
 
+    @NotNull
+    @NotBlank
     private String address;
-//    @Transient
-//    private Integer roomAmount;
+
 
 
 }

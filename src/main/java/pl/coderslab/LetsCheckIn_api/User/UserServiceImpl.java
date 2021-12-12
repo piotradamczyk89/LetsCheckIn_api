@@ -8,6 +8,7 @@ import pl.coderslab.LetsCheckIn_api.Role.RoleRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -26,9 +27,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-       // user.setEnabled(1);
+        boolean a=true;
+        user.setEnabled(a);
         Role userRole = roleRepository.findByName("ROLE_USER");
-        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
+        Set<Role> roles= new HashSet<>();
+        roles.add(userRole);
+        user.setRoles(roles);
         userRepository.save(user);
     }
 

@@ -12,28 +12,49 @@ import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 
 public class RoomServiceImpl implements RoomService{
 
-    private final RoomRepository repository;
+    private final RoomRepository roomRepository;
     private final PhotoService photoService;
 
 
     @Override
     public void saveRoom(Room room) {
-        repository.save(room);
+        roomRepository.save(room);
     }
 
     @Override
-    public void addPictureAndSave(MultipartFile photos, Room room, Apartment apartment) throws IOException {
-        String uploadDir = "src/main/webapp/img/LetsCheckIn_pictures";
-        Photo photo = new Photo();
-        photo.setRoom(room);
-        photo.setApartment(apartment);
-        photoService.savePhoto(photo);
-        FileUploadUtil.saveFile(uploadDir, photo.getId()+"", photos);
+    public void addPictureAndSave(List <MultipartFile> photos, Room room, Apartment apartment) {
+        if (photos.get(0).getSize() != 0) {
+            photos.forEach(it -> {
+                String uploadDir = "src/main/webapp/img/LetsCheckIn_pictures";
+                Photo photo = new Photo();
+                photo.setRoom(room);
+                photo.setApartment(apartment);
+                photoService.savePhoto(photo);
+                try {
+                    FileUploadUtil.saveFile(uploadDir, photo.getId()+"", it);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            return;
+        }
+    }
+
+    @Override
+    public List<Room> findByApartment(Apartment apartment) {
+        return roomRepository.findByApartment(apartment);
+    }
+
+    @Override
+    public Room getById(Long roomId) {
+        return roomRepository.getById(roomId);
     }
 }

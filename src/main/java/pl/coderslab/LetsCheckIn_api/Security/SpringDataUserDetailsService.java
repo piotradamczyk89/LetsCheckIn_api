@@ -22,6 +22,9 @@ public class SpringDataUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userService.findByUserName(username);
+        if (!user.isEnabled()){
+            return null;
+        }
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

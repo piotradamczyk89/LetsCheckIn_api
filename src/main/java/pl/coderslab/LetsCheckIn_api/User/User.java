@@ -19,10 +19,10 @@ public class User {
     private Long id;
 
     private String userName;
-   // private String surname;
     private String phone;
     private String email;
     private String password;
+    private boolean enabled;
 
     @OneToMany (fetch = FetchType.EAGER)
     private Set<Role> roles;

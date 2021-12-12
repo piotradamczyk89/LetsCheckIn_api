@@ -37,6 +37,7 @@ public class Room {
     private boolean withKitchenAnex;
     private boolean interconnecting;
     private boolean isBalcony;
+    private String description;
 
 
     public boolean getIsBalcony() {

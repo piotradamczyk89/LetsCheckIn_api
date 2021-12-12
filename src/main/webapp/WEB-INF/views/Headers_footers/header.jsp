@@ -55,7 +55,7 @@
                 <nav id="navbar" class="navbar order-last order-lg-0">
                     <ul>
                         <li><a class="nav-link scrollto active" href="#hero">Search apartments</a></li>
-                        <li><a class="nav-link scrollto" href="#about">Search apartments for sale</a></li>
+<%--                        <li><a class="nav-link scrollto" href="#about">Search apartments for sale</a></li>--%>
 <%--                        <li><a class="nav-link scrollto" href="#services">Services</a></li>--%>
 <%--                        <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>--%>
 <%--                        <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>--%>
@@ -81,7 +81,7 @@
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->
 
-                <a href="#about" class="get-started-btn scrollto">Get Started</a>
+                <a href="/login" class="get-started-btn scrollto">Get Started</a>
             </div>
         </div>
 

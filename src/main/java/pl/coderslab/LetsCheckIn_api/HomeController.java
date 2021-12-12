@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
+import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
 import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.User.UserService;
 
@@ -15,21 +16,20 @@ public class HomeController {
 
     private final UserService userService;
     private final ApartmentService apartmentService;
+    private final CountryRepository countryRepository;
 
     @RequestMapping("/")
     public String home(Model model) {
+        model.addAttribute("countries", countryRepository.findAll());
         return "home";
     }
-
-
-
     @PostMapping("/about")
     @ResponseBody
     public String about() { return "Here you can find some details for logged users"; }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
-        return "admin/login";
+        return "user/login";
     }
 
     @GetMapping("/create-user")
@@ -41,4 +41,5 @@ public class HomeController {
         userService.saveUser(user);
         return "admin";
     }
+
 }

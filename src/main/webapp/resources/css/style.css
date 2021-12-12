@@ -1339,3 +1339,7 @@ section {
 #footer .credits a:hover {
   color: #009961;
 }
+
+.hide-form {
+  display: none;
+}

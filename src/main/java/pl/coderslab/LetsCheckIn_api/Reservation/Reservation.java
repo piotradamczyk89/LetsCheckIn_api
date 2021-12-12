@@ -24,8 +24,7 @@ public class Reservation {
     private Apartment apartment;
     @ManyToOne
     private Room room;
-    @ManyToOne
-    private User user;
+
 
     private LocalDate startDate;
     private LocalDate endDate;
