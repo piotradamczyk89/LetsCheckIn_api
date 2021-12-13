@@ -24,8 +24,14 @@ public class User {
     private String password;
     private boolean enabled;
 
-    @OneToMany (fetch = FetchType.EAGER)
+    @ManyToMany (fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    public boolean isEnabled() {
+        return enabled;
+    }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

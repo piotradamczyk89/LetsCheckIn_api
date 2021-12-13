@@ -43,14 +43,20 @@
                 </div>
                 <div class="row justify-content-md-start mb-4">
                     <div class="col">
-                        <h6 class="text-center"> Kraj: <strong>${apartment.country.country}</strong></h6>
+                        <h6 class="text-center"> Kraj: <strong>${apartment.country.name}</strong></h6>
                         <h6 class="text-center"> Miasto: <strong>${apartment.city}</strong></h6>
                         <h6 class="text-center"> Adres: <strong>${apartment.address}</strong></h6>
                     </div>
                     <c:if test="${apartment.rentWay.id!=3}">
                         <div class="col">
-                            <h6 class="text-center"><spring:message code="DayPrice"/>
-                                <strong> ${apartment.apartmentPrice} </strong></h6>
+                            <c:if test="${apartment.rentWay.id==1}">
+                            <h6 class="text-center">
+                                    <spring:message code="DayPrice"/>
+                                </c:if>
+                                <c:if test="${apartment.rentWay.id==2}">
+                                <h6 class="text-center">Cena za miesiąc:
+                                    </c:if>
+                                    <strong> ${apartment.apartmentPrice} </strong></h6>
                         </div>
                     </c:if>
                     <div class="col">
@@ -82,13 +88,17 @@
                             <a href="/apartment/edit/${apartment.id}" class="btn btn-danger text-center">Edytuj
                                 apartament</a>
                         </div>
+                        <div class="col-md-2">
+                            <a href="/apartment/delete/${apartment.id}" class="btn btn-danger text-center">Usuń
+                                apartament</a>
+                        </div>
 
                     </div>
                 </c:if>
                 <c:if test="${apartment.owner.id!=userId}">
                     <div class="row justify-content-md-center mb-4">
                         <div class="col-md-2">
-                            <a href="/room/listByApart/${apartment.id}" class="btn btn-danger text-center">Rezerwuj</a>
+                            <a href="/reservation/addApart/${apartment.id}" class="btn btn-danger text-center">Rezerwuj</a>
                         </div>
 
                     </div>
@@ -154,7 +164,7 @@
                                             <c:forEach items="${apartment.photos}" var="photo">
                                                 <c:if test="${apartment.photos.get(0)==photo}">
                                                     <div class="carousel-item active">
-                                                            <%--                                                        <img src="/home/piotr/CodersLAB/LetsCheckIn_pictures/${photo.id}"--%>
+                                                            <%--                                                        <img src="home/piotr/CodersLAB/LetsCheckIn_pictures/${photo.id}.jpg"--%>
                                                             <%--                                                             class="d-block w-100"--%>
                                                             <%--                                                             alt="...">--%>
                                                         <img src="../../../img/LetsCheckIn_pictures/${photo.id}"

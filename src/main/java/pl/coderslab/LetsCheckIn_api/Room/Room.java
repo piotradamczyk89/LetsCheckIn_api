@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
+import pl.coderslab.LetsCheckIn_api.Reservation.Reservation;
 import pl.coderslab.LetsCheckIn_api.RoomName.RoomName;
 
 import javax.persistence.*;
@@ -31,6 +32,10 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Photo> photos;
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
+
+
 
     private BigDecimal roomPrice;
     private boolean withOwnBathroom;

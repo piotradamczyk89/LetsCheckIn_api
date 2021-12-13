@@ -12,6 +12,7 @@ import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -56,5 +57,15 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public Room getById(Long roomId) {
         return roomRepository.getById(roomId);
+    }
+
+    @Override
+    public void delete(Room room) {
+        roomRepository.delete(room);
+    }
+
+    @Override
+    public List<Room> roomsFromSearch(String country, String city, Integer person, LocalDate startDate, LocalDate endDate, Long userId) {
+        return roomRepository.roomsFromSearch(country,city,person,startDate,endDate,userId);
     }
 }

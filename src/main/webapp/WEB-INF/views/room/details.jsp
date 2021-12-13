@@ -48,7 +48,7 @@
                     <c:if test="${room.apartment.rentWay.id==3}">
                         <div class="col col-md-4">
                             <h4 class="text-center"><u>Dane adresowe</u></h4>
-                            <h6 class="text-center">Kraj: ${room.apartment.country.country}</h6>
+                            <h6 class="text-center">Kraj: ${room.apartment.country.name}</h6>
                             <h6 class="text-center">Miasto: ${room.apartment.city}</h6>
                             <h6 class="text-center">Kraj: ${room.apartment.address}</h6>
                         </div>
@@ -93,13 +93,17 @@
                             <a href="/room/edit/${room.id}" class="btn btn-danger text-center">Edytuj
                                 apartament</a>
                         </div>
+                        <div class="col-md-2">
+                            <a href="/reservation/addRoom/${room.id}" class="btn btn-danger text-center">Rezerwuj
+                                apartament</a>
+                        </div>
 
                     </div>
                 </c:if>
                 <c:if test="${room.apartment.owner.id!=userId}">
                     <div class="row justify-content-md-center mb-4">
                         <div class="col-md-auto">
-                            <a href="/room/listByApart/${apartment.id}" class="btn btn-danger text-center"><p class="text-center">Rezerwuj</p></a>
+                            <a href="/reservation/addRoom/${room.id}" class="btn btn-danger text-center"><p class="text-center">Rezerwuj</p></a>
                         </div>
 
                     </div>

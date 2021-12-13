@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="../Headers_footers/header_inner.jsp"/>
+<jsp:include page="../Headers_footers/header.jsp"/>
 
 <main id="main">
     <section id="breadcrumbs" class="breadcrumbs">

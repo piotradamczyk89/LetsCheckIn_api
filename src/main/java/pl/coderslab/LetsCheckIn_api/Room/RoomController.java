@@ -80,6 +80,15 @@ public class RoomController {
         return "/room/details";
     }
 
+    @RequestMapping("/delete/{roomId}")
+    public String delete (@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long roomId){
+        Room room = roomService.getById(roomId);
+        if (room.getApartment().getOwner().getId()==currentUser.getUser().getId()) {
+            roomService.delete(room);
+        }
+        return "redirect:/room/listByApart/"+room.getApartment().getId();
+    }
+
 
 
 

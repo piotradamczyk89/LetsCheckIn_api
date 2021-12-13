@@ -7,11 +7,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWay;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWayRepository;
@@ -22,6 +20,7 @@ import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import javax.websocket.server.PathParam;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/apartment/")
 @RequiredArgsConstructor
+@SessionAttributes({"startDate", "endDate"})
 public class ApartmentController {
 
     private final ApartmentService apartmentService;
@@ -39,11 +39,25 @@ public class ApartmentController {
 
 
     @RequestMapping(value = "/listSearch", method = RequestMethod.GET)
-    public String homePost(@RequestParam String country, @RequestParam String city, @RequestParam Long person, Model model) {
-        model.addAttribute("person", person);
-        List<Apartment> apartments = apartmentService.apartmentsFromSearch(country, city, person);
-        model.addAttribute("apartments", apartments);
+    public String homePost(@RequestParam (name="name") String country, @RequestParam String city, @RequestParam Integer person
+    , @RequestParam String startDate, @RequestParam String endDate, @AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        LocalDate startDate_ = LocalDate.parse(startDate);
+        LocalDate endDate_ = LocalDate.parse(endDate);
+        model.addAttribute("country",country);
+        model.addAttribute("city",city);
+        model.addAttribute("persons",person);
+        model.addAttribute("startDate",startDate_);
+        model.addAttribute("endDate",endDate_);
+        Long userId=-1l;
+        if (currentUser!=null) {
+            userId=currentUser.getUser().getId();
+            model.addAttribute("user",currentUser.getUser());
+        }
+        model.addAttribute("apartments", apartmentService.apartmentsFromSearch(country,city,person.longValue(),startDate_,endDate_,userId));
+        model.addAttribute("rooms", roomService.roomsFromSearch(country,city,person,startDate_,endDate_,userId));
         return "apartment/list";
+
+
     }
     @RequestMapping("/list")
     public String list (@AuthenticationPrincipal CurrentUser currentUser, Model model) {
@@ -90,6 +104,16 @@ public class ApartmentController {
         model.addAttribute("apartment",apartmentService.getById(apartmentId));
         return "/apartment/details";
     }
+    @RequestMapping("/delete/{apartmentId}")
+    public String delete(@PathVariable Long apartmentId, @AuthenticationPrincipal (errorOnInvalidType = false) CurrentUser currentUser) {
+        Apartment apartment = apartmentService.getById(apartmentId);
+        if (apartment.getOwner().getId()==currentUser.getUser().getId()) {
+            apartmentService.delete(apartment);
+        }
+        return "redirect:/apartment/list/";
+    }
+
+
 
 
 }

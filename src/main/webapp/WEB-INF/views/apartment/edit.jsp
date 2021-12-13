@@ -56,7 +56,7 @@
                             </h5>
                             <p class="card-text">
                                 Kraj:<br>
-                                <form:select path="country" items="${country}" itemLabel="country" itemValue="id"/> <br>
+                                <form:select path="country" items="${country}" itemLabel="name" itemValue="id"/> <br>
                                 Miasto:<br>
                                 <form:input type="text" path="city" class="form-control"/>
                             </p>

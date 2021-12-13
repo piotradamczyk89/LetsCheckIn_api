@@ -28,9 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasAnyRole("USER","ADMIN")
-                .and().formLogin()
-                .loginPage("/login");
+                .antMatchers("/user/app/**").hasRole("USER")
+                .antMatchers("/reservation/**").hasRole("USER")
+                .and().formLogin().loginPage("/user/login").defaultSuccessUrl("/user/app")
+                .and().logout().logoutSuccessUrl("/");
         http.cors().and().csrf().disable();
     }
 }

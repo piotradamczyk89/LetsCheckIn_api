@@ -6,6 +6,7 @@ import lombok.Setter;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWay;
+import pl.coderslab.LetsCheckIn_api.Reservation.Reservation;
 import pl.coderslab.LetsCheckIn_api.Room.Room;
 import pl.coderslab.LetsCheckIn_api.User.User;
 
@@ -34,6 +35,8 @@ public class Apartment {
 
     @OneToMany(mappedBy = "apartment")
     private List<Photo> photos;
+    @OneToMany(mappedBy = "apartment")
+    private List<Reservation> reservations;
 
     @NotNull
     @NotBlank

@@ -50,7 +50,7 @@
                         <form:input type="number" path="singleBed" class="form-control"/>
                         <h6 class="text-center"><strong><spring:message code="doubleBed"/></strong></h6>
                         <form:input type="number" path="doubleBed" class="form-control"/>
-                        <h6 class="text-center"><strong><spring:message code="doubleBed"/></strong></h6>
+                        <h6 class="text-center"><strong>Liczba rozkładanych kanap</strong></h6>
                         <form:input type="number" path="coach" class="form-control"/>
                     </div>
                     <c:if test="${apartment.rentWay.id==3}">

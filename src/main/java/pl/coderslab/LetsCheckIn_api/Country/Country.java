@@ -1,6 +1,9 @@
 package pl.coderslab.LetsCheckIn_api.Country;
 
 
+
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,11 +15,20 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+
 public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String country;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

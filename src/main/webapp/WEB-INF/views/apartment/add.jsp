@@ -32,7 +32,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="col-sm-2 col-form-label"><spring:message code="Cuntry.select"/>
-                        <form:select path="country" items="${country}" itemLabel="country" itemValue="id" />
+                        <form:select path="country" items="${country}" itemLabel="name" itemValue="id" />
                     </label>
                 </div>
                 <div class="mb-3">
