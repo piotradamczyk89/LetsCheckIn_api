@@ -5,10 +5,13 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import pl.coderslab.LetsCheckIn_api.DtoApartmentAndRoom.DtoApartmentAndRoom;
+
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoRepository;
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
+import pl.coderslab.LetsCheckIn_api.Reservation.ReservationService;
+import pl.coderslab.LetsCheckIn_api.Room.RoomRepository;
+import pl.coderslab.LetsCheckIn_api.Room.RoomService;
 import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
@@ -23,6 +26,8 @@ public class ApartmentServiceImpl implements ApartmentService{
 
     private final ApartmentRepository apartmentRepository;
     private final PhotoService photoService;
+    private final RoomService roomService;
+    private final ReservationService reservationService;
 
     @Override
     public List<Apartment> apartmentsFromSearch(String country, String city,
@@ -40,9 +45,7 @@ public class ApartmentServiceImpl implements ApartmentService{
         if (photos.get(0).getSize() != 0) {
             photos.forEach(it -> {
                String uploadDir = "src/main/webapp/img/LetsCheckIn_pictures";
-  //              String uploadDir = "/home/piotr/CodersLAB/LetsCheckIn_pictures";
                 Photo photo = new Photo();
-  //              String filename = StringUtils.cleanPath(it.getOriginalFilename());
                 photo.setApartment(apartment);
                 photoService.savePhoto(photo);
                 try {
@@ -68,6 +71,9 @@ public class ApartmentServiceImpl implements ApartmentService{
 
     @Override
     public void delete(Apartment apartment) {
+        roomService.findByApartment(apartment).forEach(it -> roomService.delete(it));
+        reservationService.findByApartment(apartment).forEach(it->reservationService.delete(it));
+        photoService.findByApartment(apartment).forEach(it -> photoService.delete(it));
         apartmentRepository.delete(apartment);
     }
 }

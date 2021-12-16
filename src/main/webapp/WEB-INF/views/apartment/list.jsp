@@ -56,6 +56,9 @@
                         <div class="col-md-4 row align-items-center">
                             <a href="/apartment/details/${apartment.id}" class="btn btn-info"><spring:message
                                     code="Details"/></a>
+                            <c:if test="${user.id==apartment.owner.id}">
+                                <a href="/reservation/list/${apartment.id}" class="btn btn-info">Rezerwacje obiektu</a>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -78,6 +81,9 @@
                         </div>
                         <div class="col-md-4 row align-items-center">
                             <a href="/room/details/${room.id}" class="btn btn-info"><spring:message code="Details"/></a>
+                            <c:if test="${user.id==apartment.owner.id}">
+                                <a href="/reservation/listRoom/${room.id}" class="btn btn-info">Rezerwacje obiektu</a>
+                            </c:if>
                         </div>
                     </div>
                 </div>

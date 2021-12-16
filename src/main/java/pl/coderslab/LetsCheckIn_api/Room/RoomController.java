@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
+import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.RoomName.RoomNameRepository;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 
@@ -27,6 +28,7 @@ public class RoomController {
     private final RoomService roomService;
     private final ApartmentService apartmentService;
     private final RoomNameRepository roomNameRepository;
+    private final PhotoService photoService;
 
     @RequestMapping ("/add/{apartment_id}")//funkcja z linkiem po userze
     public String addForm (@PathVariable Long apartment_id, Model model) {

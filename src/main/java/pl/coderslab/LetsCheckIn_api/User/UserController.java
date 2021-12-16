@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
-import pl.coderslab.LetsCheckIn_api.DtoApartmentAndRoom.DtoApartmentAndRoom;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 
 

@@ -9,6 +9,7 @@ import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
 import pl.coderslab.LetsCheckIn_api.Photo.Photo;
 
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
+import pl.coderslab.LetsCheckIn_api.Reservation.ReservationService;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class RoomServiceImpl implements RoomService{
 
     private final RoomRepository roomRepository;
     private final PhotoService photoService;
+    private final ReservationService reservationService;
 
 
     @Override
@@ -61,6 +63,8 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public void delete(Room room) {
+        photoService.findByRoom(room).forEach(it -> photoService.delete(it));
+        reservationService.findByRoom(room).forEach(it->reservationService.delete(it));
         roomRepository.delete(room);
     }
 

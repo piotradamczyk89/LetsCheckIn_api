@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
+import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWay;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWayRepository;
 import pl.coderslab.LetsCheckIn_api.Room.Room;
@@ -36,6 +37,7 @@ public class ApartmentController {
     private final RoomService roomService;
     private final CountryRepository countryRepository;
     private final RentWayRepository rentWayRepository;
+    private final PhotoService photoService;
 
 
     @RequestMapping(value = "/listSearch", method = RequestMethod.GET)
@@ -62,6 +64,9 @@ public class ApartmentController {
     @RequestMapping("/list")
     public String list (@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         model.addAttribute("apartments",apartmentService.findByOwner(currentUser.getUser()));
+        if (currentUser!=null) {
+            model.addAttribute("user",currentUser.getUser());
+        }
         return "apartment/list";
     }
 
@@ -108,7 +113,7 @@ public class ApartmentController {
     public String delete(@PathVariable Long apartmentId, @AuthenticationPrincipal (errorOnInvalidType = false) CurrentUser currentUser) {
         Apartment apartment = apartmentService.getById(apartmentId);
         if (apartment.getOwner().getId()==currentUser.getUser().getId()) {
-            apartmentService.delete(apartment);
+           apartmentService.delete(apartment);
         }
         return "redirect:/apartment/list/";
     }
