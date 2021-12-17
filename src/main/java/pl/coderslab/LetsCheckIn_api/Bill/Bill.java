@@ -2,6 +2,7 @@ package pl.coderslab.LetsCheckIn_api.Bill;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.LetsCheckIn_api.Reservation.Reservation;
 import pl.coderslab.LetsCheckIn_api.Status.Status;
 
@@ -21,8 +22,9 @@ public class Bill {
     private String name;
     @ManyToOne
     private Reservation reservation;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expireDate;
 
     private boolean isPaid;

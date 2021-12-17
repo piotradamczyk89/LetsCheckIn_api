@@ -1,6 +1,9 @@
 package pl.coderslab.LetsCheckIn_api.Apartment;
 
 import org.apache.tomcat.jni.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,4 +27,19 @@ public interface ApartmentRepository extends JpaRepository <Apartment,Long> {
     List<Apartment> apartmentsFromSearch (String country, String city,
                                           Long person, LocalDate startDate, LocalDate endDate, Long userId);
     List<Apartment> findByOwner (User owner);
+
+    Slice<Apartment> findByOwner(User owner, Pageable pageable);
+    Page <Apartment> findByOwner1(User owner, Pageable pageable);
+
+
+    @Query ("select a from Apartment a left join a.reservations rr " +
+            "where a.country.name=?1" +
+            " and a.rentWay.id=2l" +
+            " and a.city=?2" +
+            " and a.area>=?3" +
+            " and (rr.size =0 or ((rr.startDate not between ?4 and ?5)" +
+            " and (rr.endDate not between ?4 and ?5))) and a.owner.id<>?6" +
+            " group by a.id")
+    List<Apartment> apartmentsLongFromSearch (String country, String city,
+                                              Double area, LocalDate startDate, LocalDate endDate, Long userId);
 }

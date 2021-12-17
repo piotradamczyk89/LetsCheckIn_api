@@ -2,6 +2,8 @@ package pl.coderslab.LetsCheckIn_api.Room;
 
 import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,5 +15,5 @@ public interface RoomService {
     void addPictureAndSave(List <MultipartFile> photos, Room room, Apartment apartment);
     List<Room> findByApartment (Apartment apartment);
     Room getById (Long roomId);
-    List<Room> roomsFromSearch (String country, String city, Integer person, LocalDate startDate, java.time.LocalDate endDate, Long userId);
+    List<Room> roomsFromSearch (SearchDto searchDto, CurrentUser currentUser);
 }

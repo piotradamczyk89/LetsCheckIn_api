@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchLongDto;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 
 
@@ -39,7 +41,9 @@ public class UserController {
     public String userMain (Model model, @AuthenticationPrincipal CurrentUser currentUser) {
         model.addAttribute("user",currentUser.getUser());
         model.addAttribute("countries",countryRepository.findAll());
-        model.addAttribute("country",new Country());
+        model.addAttribute("searchDto",new SearchDto());
+        model.addAttribute("searchLongDto",new SearchLongDto());
+
       //  model.addAttribute("dto",new DtoApartmentAndRoom());
         return "/user/app";
     }

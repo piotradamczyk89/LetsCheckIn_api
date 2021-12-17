@@ -10,6 +10,8 @@ import pl.coderslab.LetsCheckIn_api.Photo.Photo;
 
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.Reservation.ReservationService;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
 import java.io.IOException;
@@ -69,7 +71,16 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public List<Room> roomsFromSearch(String country, String city, Integer person, LocalDate startDate, LocalDate endDate, Long userId) {
-        return roomRepository.roomsFromSearch(country,city,person,startDate,endDate,userId);
+    public List<Room> roomsFromSearch(SearchDto searchDto, CurrentUser currentUser) {
+        Long userId = -1L;
+        if (currentUser != null) {
+            userId = currentUser.getUser().getId();
+        }
+        return roomRepository.roomsFromSearch(searchDto.getCountry(),
+                searchDto.getCity(),
+                searchDto.getPerson(),
+                searchDto.getStartDate(),
+                searchDto.getEndDate(),
+                userId);
     }
 }

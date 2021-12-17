@@ -80,7 +80,7 @@
                         <h4 class="text-center"><u>Akcja</u></h4>
                     </div>
                 </div>
-                <c:if test="${room.apartment.owner.id==userId}">
+                <c:if test="${room.apartment.owner.id==user.id}">
                     <div class="row justify-content-md-center mb-4">
                         <div class="col-md-2">
                             <a href="/room/edit/${room.id}" class="btn btn-danger text-center">Dodaj pokój</a>
@@ -100,7 +100,7 @@
 
                     </div>
                 </c:if>
-                <c:if test="${room.apartment.owner.id!=userId}">
+                <c:if test="${room.apartment.owner.id!=user.id}">
                     <div class="row justify-content-md-center mb-4">
                         <div class="col-md-auto">
                             <a href="/reservation/addRoom/${room.id}" class="btn btn-danger text-center"><p class="text-center">Rezerwuj</p></a>

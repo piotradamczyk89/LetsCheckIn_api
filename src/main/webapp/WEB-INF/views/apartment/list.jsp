@@ -21,21 +21,21 @@
 
     <section class="inner-page">
         <div class="container">
-            <c:if test="${persons!=null}">
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-6">
-                        <h5 class="text-center">Wyszukiwanie dla:</h5>
-                        <h6><u>Kraj: <strong>${country}</strong></u></h6>
-                        <h6><u>Miasto <strong>${city}</strong></u></h6>
-                        <h6><u>Ilość osób: <strong>${persons}</strong></u></h6>
-                        <h6><u>Data rozpoczęcia najmu: <strong>${startDate}</strong></u></h6>
-                        <h6><u>Data zakończenia najmu: <strong>${endDate}</strong></u></h6>
-                        <sec:authorize access="isAuthenticated()">
-                            <h6 style="color: red"><u>Wyszukiwanie nie obejmuje twoich obiektów</strong></u></h6>
-                        </sec:authorize>
-                    </div>
-                </div>
-            </c:if>
+<%--            <c:if test="${searchDto!=null}">--%>
+<%--                <div class="row mb-4">--%>
+<%--                    <div class="col-md-6 mb-6">--%>
+<%--                        <h5 class="text-center">Wyszukiwanie dla:</h5>--%>
+<%--                        <h6><u>Kraj: <strong>${searchDto.country}</strong></u></h6>--%>
+<%--                        <h6><u>Miasto <strong>${searchDto.city}</strong></u></h6>--%>
+<%--                        <h6><u>Ilość osób: <strong>${searchDto.person}</strong></u></h6>--%>
+<%--                        <h6><u>Data rozpoczęcia najmu: <strong>${searchDto.startDate}</strong></u></h6>--%>
+<%--                        <h6><u>Data zakończenia najmu: <strong>${searchDto.endDate}</strong></u></h6>--%>
+<%--                        <sec:authorize access="isAuthenticated()">--%>
+<%--                            <h6 style="color: red"><u>Wyszukiwanie nie obejmuje twoich obiektów</u></h6>--%>
+<%--                        </sec:authorize>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
             <c:forEach items="${apartments}" var="apartment">
 
                 <%--                    --%>

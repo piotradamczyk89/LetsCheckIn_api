@@ -2,6 +2,9 @@ package pl.coderslab.LetsCheckIn_api.Apartment;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +15,9 @@ import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.Reservation.ReservationService;
 import pl.coderslab.LetsCheckIn_api.Room.RoomRepository;
 import pl.coderslab.LetsCheckIn_api.Room.RoomService;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchLongDto;
+import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
@@ -29,11 +35,7 @@ public class ApartmentServiceImpl implements ApartmentService{
     private final RoomService roomService;
     private final ReservationService reservationService;
 
-    @Override
-    public List<Apartment> apartmentsFromSearch(String country, String city,
-                                                Long person, LocalDate startDate, LocalDate endDate, Long userId) {
-        return apartmentRepository.apartmentsFromSearch(country,city,person,startDate,endDate,userId);
-    }
+
 
     @Override
     public void saveApartment(Apartment apartment) {
@@ -75,5 +77,33 @@ public class ApartmentServiceImpl implements ApartmentService{
         reservationService.findByApartment(apartment).forEach(it->reservationService.delete(it));
         photoService.findByApartment(apartment).forEach(it -> photoService.delete(it));
         apartmentRepository.delete(apartment);
+    }
+
+    @Override
+    public List<Apartment> apartmentsFromSearch(SearchDto searchDto, CurrentUser currentUser) {
+        Long userId = -1L;
+        if (currentUser != null) {
+            userId = currentUser.getUser().getId();
+        }
+        return apartmentRepository.apartmentsFromSearch(searchDto.getCountry(),
+                searchDto.getCity(),
+                searchDto.getPerson().longValue(),
+                searchDto.getStartDate(),
+                searchDto.getEndDate(),
+                userId);
+    }
+
+    @Override
+    public List<Apartment> apartmentsLongFromSearch(SearchLongDto searchLongDto, CurrentUser currentUser) {
+        Long userId = -1L;
+        if (currentUser != null) {
+            userId = currentUser.getUser().getId();
+        }
+        return apartmentRepository.apartmentsLongFromSearch(searchLongDto.getCountry(),
+                searchLongDto.getCity(),
+                searchLongDto.getArea(),
+                searchLongDto.getStartDate(),
+                searchLongDto.getEndDate(),
+                userId);
     }
 }

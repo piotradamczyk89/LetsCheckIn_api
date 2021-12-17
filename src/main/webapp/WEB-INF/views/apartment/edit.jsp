@@ -102,10 +102,13 @@
                             </div>
                         </div>
                         <div class="col-md-4 row align-items-center">
-                            <a href="/apartment/edit/${apartment.id}" class="btn btn-info">Zapisz zmiany</a>
+                            <input type="submit" value="Aktualizuj">
                             <a href="/room/add/${apartment.id}" class="btn btn-success">Dodaj pokój</a>
                         </div>
                     </div>
+                    <form:hidden path="id" value="${apartment.id}"/>
+                    <form:hidden path="owner" value="${apartment.owner.id}"/>
+                    <form:hidden path="rentWay" value="${apartment.rentWay.id}"/>
                 </form:form>
             </div>
 

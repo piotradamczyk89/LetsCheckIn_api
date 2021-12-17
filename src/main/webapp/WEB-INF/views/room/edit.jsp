@@ -125,6 +125,9 @@
                         </div>
                     </div>
                 </div>
+                <form:hidden path="id" value="${room.id}"/>
+                <form:hidden path="apartment" value="${room.apartment.id}"/>
+                <form:hidden path="roomName" value="${room.roomName.id}"/>
             </form:form>
         </div>
     </section>

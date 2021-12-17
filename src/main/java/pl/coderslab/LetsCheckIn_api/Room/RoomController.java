@@ -5,19 +5,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Apartment.Apartment;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
 import pl.coderslab.LetsCheckIn_api.Photo.PhotoService;
 import pl.coderslab.LetsCheckIn_api.RoomName.RoomNameRepository;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
+import pl.coderslab.LetsCheckIn_api.User.User;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -59,7 +58,7 @@ public class RoomController {
     @RequestMapping("/edit/{roomId}")
     public String editForm (@AuthenticationPrincipal CurrentUser currentUser, Model model, @PathVariable Long roomId) {
         Room room = roomService.getById(roomId);
-        if (currentUser.getUser().getId()!=room.getApartment().getOwner().getId()) {
+        if (!Objects.equals(currentUser.getUser().getId(), room.getApartment().getOwner().getId())) {
             return "/home";
         }
         model.addAttribute("room", room);
@@ -76,22 +75,25 @@ public class RoomController {
     public String details (@AuthenticationPrincipal CurrentUser currentUser, Model model, @PathVariable Long roomId) {
         Room room = roomService.getById(roomId);
         model.addAttribute("room", room);
-        if (currentUser!=null) {
-            model.addAttribute("userId",currentUser.getUser().getId());
-        }
         return "/room/details";
     }
 
     @RequestMapping("/delete/{roomId}")
     public String delete (@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long roomId){
         Room room = roomService.getById(roomId);
-        if (room.getApartment().getOwner().getId()==currentUser.getUser().getId()) {
+        if (Objects.equals(room.getApartment().getOwner().getId(), currentUser.getUser().getId())) {
             roomService.delete(room);
         }
         return "redirect:/room/listByApart/"+room.getApartment().getId();
     }
 
-
+    @ModelAttribute("user")
+    public User user(@AuthenticationPrincipal CurrentUser currentUser) {
+        if(currentUser!=null) {
+            return currentUser.getUser();
+        }
+        return null;
+    }
 
 
 

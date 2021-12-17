@@ -30,6 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/user/app/**").hasRole("USER")
                 .antMatchers("/reservation/**").hasRole("USER")
+                .antMatchers("/apartment/add/**").hasRole("USER")
+                .antMatchers("/apartment/edit/**").hasRole("USER")
+                .antMatchers("/apartment/delete/**").hasRole("USER")
+                .antMatchers("/room/add/**").hasRole("USER")
+                .antMatchers("/room/edit/**").hasRole("USER")
+                .antMatchers("/room/delete/**").hasRole("USER")
+                .antMatchers("/bill/**").hasRole("USER")
                 .and().formLogin().loginPage("/user/login").defaultSuccessUrl("/user/app")
                 .and().logout().logoutSuccessUrl("/");
         http.cors().and().csrf().disable();

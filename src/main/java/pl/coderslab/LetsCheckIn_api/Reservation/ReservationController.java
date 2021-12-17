@@ -95,7 +95,6 @@ public class ReservationController {
 
     @RequestMapping("/list/actual")
     public String listActual(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
-
         model.addAttribute("reservations",
                 reservationService.findByEndDateAfterAndTenant(LocalDate.now(), currentUser.getUser()));
         return "/reservation/list";

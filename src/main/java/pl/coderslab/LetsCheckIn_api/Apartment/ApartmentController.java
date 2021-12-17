@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
@@ -16,16 +17,17 @@ import pl.coderslab.LetsCheckIn_api.RentWay.RentWay;
 import pl.coderslab.LetsCheckIn_api.RentWay.RentWayRepository;
 import pl.coderslab.LetsCheckIn_api.Room.Room;
 import pl.coderslab.LetsCheckIn_api.Room.RoomService;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchLongDto;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
+import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.Utils.FileUploadUtil;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/apartment/")
@@ -41,40 +43,50 @@ public class ApartmentController {
 
 
     @RequestMapping(value = "/listSearch", method = RequestMethod.GET)
-    public String homePost(@RequestParam (name="name") String country, @RequestParam String city, @RequestParam Integer person
-    , @RequestParam String startDate, @RequestParam String endDate, @AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        LocalDate startDate_ = LocalDate.parse(startDate);
-        LocalDate endDate_ = LocalDate.parse(endDate);
-        model.addAttribute("country",country);
-        model.addAttribute("city",city);
-        model.addAttribute("persons",person);
-        model.addAttribute("startDate",startDate_);
-        model.addAttribute("endDate",endDate_);
-        Long userId=-1l;
-        if (currentUser!=null) {
-            userId=currentUser.getUser().getId();
-            model.addAttribute("user",currentUser.getUser());
+    public String searchList(@AuthenticationPrincipal CurrentUser currentUser, Model model, @Valid SearchDto searchDto, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("searchLongDto",new SearchLongDto());
+            return "/user/app";
         }
-        model.addAttribute("apartments", apartmentService.apartmentsFromSearch(country,city,person.longValue(),startDate_,endDate_,userId));
-        model.addAttribute("rooms", roomService.roomsFromSearch(country,city,person,startDate_,endDate_,userId));
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser.getUser());
+        }
+        model.addAttribute("startDate", searchDto.getStartDate());
+        model.addAttribute("endDate", searchDto.getEndDate());
+        model.addAttribute("searchDto", searchDto);
+        model.addAttribute("apartments", apartmentService.apartmentsFromSearch(searchDto,currentUser));
+        model.addAttribute("rooms", roomService.roomsFromSearch(searchDto,currentUser));
         return "apartment/list";
-
-
     }
-    @RequestMapping("/list")
-    public String list (@AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        model.addAttribute("apartments",apartmentService.findByOwner(currentUser.getUser()));
-        if (currentUser!=null) {
-            model.addAttribute("user",currentUser.getUser());
+
+    @RequestMapping(value = "/listLongSearch", method = RequestMethod.GET)
+    public String searchLongList(@AuthenticationPrincipal CurrentUser currentUser, Model model, @Valid SearchLongDto searchLongDto, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("searchDto",new SearchDto());
+            return "/user/app";
         }
+        searchLongDto.setEndDate();
+        model.addAttribute("startDate", searchLongDto.getStartDate());
+        model.addAttribute("endDate", searchLongDto.getEndDate());
+        model.addAttribute("searchLongDto", searchLongDto);
+        model.addAttribute("apartments",apartmentService.apartmentsLongFromSearch(searchLongDto,currentUser));
+
+        return "apartment/list";
+    }
+
+    @RequestMapping("/list")
+    public String list(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        model.addAttribute("apartments", apartmentService.findByOwner(currentUser.getUser()));
         return "apartment/list";
     }
 
     @RequestMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("apartment", new Apartment());
-        model.addAttribute("country",countryRepository.findAll());
-        model.addAttribute("rentWay",rentWayRepository.findAll());
+        model.addAttribute("country", countryRepository.findAll());
+        model.addAttribute("rentWay", rentWayRepository.findAll());
         return "/apartment/add";
     }
 
@@ -84,41 +96,46 @@ public class ApartmentController {
                           @AuthenticationPrincipal CurrentUser currentUser) throws IOException {
         apartment.setOwner(currentUser.getUser());
         apartmentService.saveApartment(apartment);
-        apartmentService.addPictureAndSave(pictures,apartment);
-        return "redirect:/apartment/details/"+apartment.getId();
+        apartmentService.addPictureAndSave(pictures, apartment);
+        return "redirect:/apartment/details/" + apartment.getId();
     }
+
     @RequestMapping("/edit/{apartmentId}")
     public String editForm(@PathVariable Long apartmentId, Model model) {
-
-        model.addAttribute("apartment",apartmentService.getById(apartmentId));
-        model.addAttribute("country",countryRepository.findAll());
+        model.addAttribute("apartment", apartmentService.getById(apartmentId));
+        model.addAttribute("country", countryRepository.findAll());
         return "/apartment/edit";
     }
+
     @RequestMapping(value = "/edit/{apartmentId}", method = RequestMethod.POST)
     public String editPost(@PathVariable Long apartmentId, Apartment apartment) {
         apartmentService.saveApartment(apartment);
-        return "redirect:/apartment/details"+apartment.getId();
+        return "redirect:/apartment/details/" + apartment.getId();
     }
 
 
     @RequestMapping("/details/{apartmentId}")
-    public String details(@PathVariable Long apartmentId, Model model, @AuthenticationPrincipal (errorOnInvalidType = false) CurrentUser currentUser) {
-        if (currentUser!=null) {
-            model.addAttribute("userId", currentUser.getUser().getId());
-        }
-        model.addAttribute("apartment",apartmentService.getById(apartmentId));
+    public String details(@PathVariable Long apartmentId, Model model) {
+        model.addAttribute("apartment", apartmentService.getById(apartmentId));
         return "/apartment/details";
     }
+
     @RequestMapping("/delete/{apartmentId}")
-    public String delete(@PathVariable Long apartmentId, @AuthenticationPrincipal (errorOnInvalidType = false) CurrentUser currentUser) {
+    public String delete(@PathVariable Long apartmentId, @AuthenticationPrincipal(errorOnInvalidType = false) CurrentUser currentUser) {
         Apartment apartment = apartmentService.getById(apartmentId);
-        if (apartment.getOwner().getId()==currentUser.getUser().getId()) {
-           apartmentService.delete(apartment);
+        if (Objects.equals(apartment.getOwner().getId(), currentUser.getUser().getId())) {
+            apartmentService.delete(apartment);
         }
         return "redirect:/apartment/list/";
     }
 
-
+    @ModelAttribute("user")
+    public User user(@AuthenticationPrincipal CurrentUser currentUser) {
+        if(currentUser!=null) {
+            return currentUser.getUser();
+        }
+        return null;
+    }
 
 
 }

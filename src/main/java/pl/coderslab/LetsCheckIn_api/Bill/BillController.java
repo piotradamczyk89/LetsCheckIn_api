@@ -38,7 +38,7 @@ public class BillController {
     public String edit(@AuthenticationPrincipal CurrentUser currentUser, Model model, @PathVariable Long billId) {
         Bill bill = billService.getById(billId);
         if (currentUser.getUser().getId() == bill.getReservation().getApartment().getOwner().getId()) {
-            model.addAttribute("bill", bill);
+            model.addAttribute("billEdit", bill);
             return "/bill/edit";
         }
         return "redirect:/user/app";

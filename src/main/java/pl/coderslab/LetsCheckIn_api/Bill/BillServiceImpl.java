@@ -55,14 +55,17 @@ public class BillServiceImpl implements BillService {
             bill.setCost(paidBill.getReservation().getApartment().getApartmentPrice()
                     .multiply(new BigDecimal(ChronoUnit.DAYS.between(paidBill.getReservation().getStartDate(), paidBill.getReservation().getEndDate())))
                     .subtract(paidBill.getCost()));
+            return bill;
         } else if (paidBill.getReservation().getApartment().getRentWay().getId() == 2
                 && (paidBill.getName().equals("Month pay") || paidBill.getName().equals("Deposit"))) {
             bill.setName("Month pay");
             bill.setCost(paidBill.getReservation().getApartment().getApartmentPrice());
             if (paidBill.getName().equals("Deposit")) {
                 bill.setExpireDate(paidBill.getReservation().getStartDate().plusMonths(1));
+                return bill;
             } else if (paidBill.getReservation().getEndDate().isAfter(paidBill.getExpireDate().plusMonths(1))) {
                 bill.setExpireDate(paidBill.getExpireDate().plusMonths(1));
+                return bill;
             } else {
                 return null;
             }
@@ -72,8 +75,10 @@ public class BillServiceImpl implements BillService {
             bill.setCost(paidBill.getReservation().getRoom().getRoomPrice()
                     .multiply(new BigDecimal(ChronoUnit.DAYS.between(paidBill.getReservation().getStartDate(), paidBill.getReservation().getEndDate())))
                     .subtract(paidBill.getCost()));
+            return bill;
+        } else {
+            return null;
         }
-        return bill;
     }
 
     @Override
