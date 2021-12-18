@@ -56,18 +56,17 @@
                     <ul>
                         <li><a class="nav-link scrollto active" href="/user/app">Szukaj noclegu</a></li>
 
-                        <li class="dropdown"><a href="#"><span>Zarzadzaj swoimi obiektami</span> <i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown"><a href=""><span>Zarzadzaj swoimi obiektami</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/apartment/add">Dodaj obiekt</a></li>
                                 <li><a href="/apartment/list">Zobcz liste obiektów</a></li>
+                                <li><a href="/reservation/list/owner/afterDeadline/">Nie opłacone rezerwacje w twoich obiektach</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#"><span>Zobacz swoje rezerwacje</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/reservation/list/history">Historia Rezerwacji</a></li>
                                 <li><a href="/reservation/list/actual">Aktualne Rezerwacje</a></li>
-                                <li><a href="#">Drop Down 3</a></li>
-                                <li><a href="#">Drop Down 4</a></li>
                             </ul>
                         </li>
                         <li><a class="nav-link scrollto active" href="/user/edit/${user.id}">Witaj ${user.userName}</a></li>

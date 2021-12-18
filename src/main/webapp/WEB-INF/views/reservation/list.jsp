@@ -25,14 +25,14 @@
             <c:forEach items="${reservations}" var="reservation">
                 <c:if test="${reservation.room==null}">
                 <div class="row justify-content-center">
-                    <div class="card  mb-4" style="max-width: 630px;">
+                    <div class="card  mb-4" style="max-width: 630px;background-color: #e5e5e5">
                         <div class="card-header">
                                 Rezerwacja o numerze: ${reservation.name}
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">${reservation.apartment.name}</h5>
-                            <p class="card-text">Data zamledowania ${reservation.startDate}</p>
-                            <p class="card-text">Data wymeldowania ${reservation.endDate}</p>
+                            <p class="card-text">Data zamledowania: ${reservation.startDate}</p>
+                            <p class="card-text">Data wymeldowania: ${reservation.endDate}</p>
                             <c:forEach items="${reservation.bills}" var="bill">
                                 <c:if test="${bill.name.equals('Advance payment')}">
                                     <p class="card-text">Rezerwacja opłacona : ${bill.paid}</p>
@@ -42,16 +42,21 @@
                                     </c:if>
                                 </c:if>
                             </c:forEach>
-                            <a href="/apartment/details/${reservation.apartment.id}" class="btn btn-primary">Szczegóły obiektu</a>
-                            <a href="/reservation/delete/${reservation.id}" class="btn btn-primary">Anuluj rezerwacje</a>
-                            <a href="/bill/list/${reservation.id}" class="btn btn-primary">Zobacz wszytskie rachunki</a>
+                            <c:if test="${reservation.apartment.owner.id==user.id}">
+                            <p class="card-text">Rezerwujcy: ${reservation.tenant.userName}</p>
+                            <p class="card-text">tel. ${reservation.tenant.phone} email:${reservation.tenant.email}</p>
+                            </c:if>
+                            <p> <a href="/bill/add/${reservation.id}" class="btn btn-primary">Dodaj swój rachunek</a>
+                                <a href="/reservation/delete/${reservation.id}" class="btn btn-primary">Anuluj rezerwacje</a>
+                                <a href="/bill/list/${reservation.id}" class="btn btn-primary">Zobacz wszytskie rachunki</a></p>
+                            <p><a href="/room/details/${reservation.room.id}" class="btn btn-primary">Szczegóły obiektu</a></p>
                         </div>
                     </div>
                 </div>
                 </c:if>
                 <c:if test="${reservation.room!=null}">
                     <div class="row justify-content-center">
-                        <div class="card mb-4" style="max-width: 630px;">
+                        <div class="card mb-4" style="max-width: 630px;background-color: #e5e5e5">
                             <div class="card-header">
                                     ${reservation.name}
                             </div>
@@ -68,9 +73,14 @@
                                         </c:if>
                                     </c:if>
                                 </c:forEach>
-                                <a href="/room/details/${reservation.room.id}" class="btn btn-primary">Szczegóły obiektu</a>
+                                <c:if test="${reservation.apartment.owner.id==user.id}">
+                                    <p class="card-text">Rezerwujcy: ${reservation.tenant.userName}</p>
+                                    <p class="card-text">tel. ${reservation.tenant.phone} email:${reservation.tenant.email}</p>
+                                </c:if>
+                                <p> <a href="/bill/add/${reservation.id}" class="btn btn-primary">Dodaj swój rachunek</a>
                                 <a href="/reservation/delete/${reservation.id}" class="btn btn-primary">Anuluj rezerwacje</a>
-                                <a href="/bill/list/${reservation.id}" class="btn btn-primary">Zobacz wszytskie rachunki</a>
+                                <a href="/bill/list/${reservation.id}" class="btn btn-primary">Zobacz wszytskie rachunki</a></p>
+                                <p><a href="/room/details/${reservation.room.id}" class="btn btn-primary">Szczegóły obiektu</a></p>
                             </div>
                         </div>
                     </div>

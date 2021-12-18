@@ -36,8 +36,12 @@
                                     <p class="card-text">Wartość rachunku do zapłaty ${bill.cost}</p>
                                     <p class="card-text">Rachunek opłacony : ${bill.paid}</p>
                                     <c:if test="${user.id==bill.reservation.apartment.owner.id}">
+                                        <c:if test="${bill.paid==false}">
                                         <a href="/bill/edit/${bill.id}"
                                            class="btn btn-primary">Zmień status rachunku</a>
+                                        </c:if>
+                                        <a href="/bill/delete/${bill.id}"
+                                           class="btn btn-primary">Usuń rachunek</a>
                                     </c:if>
                                 </div>
                             </div>

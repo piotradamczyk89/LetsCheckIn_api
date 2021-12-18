@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.LetsCheckIn_api.Reservation.Reservation;
-import pl.coderslab.LetsCheckIn_api.Status.Status;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ public class Bill {
     @ManyToOne
     private Reservation reservation;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createDate;
+    private LocalDate createDate=LocalDate.now();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expireDate;
 

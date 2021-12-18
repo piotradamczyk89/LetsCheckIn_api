@@ -21,10 +21,24 @@ public class BillServiceImpl implements BillService {
     public Bill createFirstBill(Reservation reservation) {
         Bill bill = new Bill();
         bill.setReservation(reservation);
-        bill.setCreateDate(LocalDate.now());
-        bill.setExpireDate(LocalDate.now().plusDays(7));
+        if(reservation.getStartDate().isEqual(LocalDate.now()) && reservation.getApartment().getRentWay().getId()!=2) {
+            bill.setPaid(false);
+            bill.setExpireDate(LocalDate.now().plusDays(1));
+            bill.setName("Full payment without advance");
+            if (reservation.getApartment().getRentWay().getId()==1) {
+                bill.setCost(reservation.getApartment().getApartmentPrice()
+                        .multiply(new BigDecimal(ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate()))));
+            } else {
+                bill.setCost(reservation.getRoom().getRoomPrice()
+                        .multiply(new BigDecimal(ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate()))));
+            }
+            return bill;
+        } else if (reservation.getStartDate().isBefore(LocalDate.now().plusDays(4))) {
+            bill.setExpireDate(reservation.getStartDate());
+        } else {
+            bill.setExpireDate(LocalDate.now().plusDays(4));
+        }
         bill.setPaid(false);
-
         if (reservation.getApartment().getRentWay().getId() == 1) {
             bill.setName("Advance payment");
             bill.setCost(reservation.getApartment().getApartmentPrice()
@@ -39,7 +53,6 @@ public class BillServiceImpl implements BillService {
                     .multiply(new BigDecimal(ChronoUnit.DAYS.between(reservation.getStartDate(), reservation.getEndDate())))
                     .multiply(new BigDecimal("0.25")));
         }
-
         return bill;
     }
 
@@ -47,7 +60,6 @@ public class BillServiceImpl implements BillService {
     public Bill createNextBill(Bill paidBill) {
         Bill bill = new Bill();
         bill.setReservation(paidBill.getReservation());
-        bill.setCreateDate(LocalDate.now());
         bill.setPaid(false);
         if (paidBill.getReservation().getApartment().getRentWay().getId() == 1 && paidBill.getName().equals("Advance payment")) {
             bill.setName("Full payment");

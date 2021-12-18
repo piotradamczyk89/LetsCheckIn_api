@@ -28,8 +28,8 @@ public interface ApartmentRepository extends JpaRepository <Apartment,Long> {
                                           Long person, LocalDate startDate, LocalDate endDate, Long userId);
     List<Apartment> findByOwner (User owner);
 
-    Slice<Apartment> findByOwner(User owner, Pageable pageable);
-    Page <Apartment> findByOwner1(User owner, Pageable pageable);
+//    Slice<Apartment> findByOwner(User owner, Pageable pageable);
+//    Page <Apartment> findByOwner1(User owner, Pageable pageable);
 
 
     @Query ("select a from Apartment a left join a.reservations rr " +
@@ -40,6 +40,7 @@ public interface ApartmentRepository extends JpaRepository <Apartment,Long> {
             " and (rr.size =0 or ((rr.startDate not between ?4 and ?5)" +
             " and (rr.endDate not between ?4 and ?5))) and a.owner.id<>?6" +
             " group by a.id")
+
     List<Apartment> apartmentsLongFromSearch (String country, String city,
                                               Double area, LocalDate startDate, LocalDate endDate, Long userId);
 }

@@ -21,21 +21,36 @@
 
     <section class="inner-page">
         <div class="container">
-<%--            <c:if test="${searchDto!=null}">--%>
-<%--                <div class="row mb-4">--%>
-<%--                    <div class="col-md-6 mb-6">--%>
-<%--                        <h5 class="text-center">Wyszukiwanie dla:</h5>--%>
-<%--                        <h6><u>Kraj: <strong>${searchDto.country}</strong></u></h6>--%>
-<%--                        <h6><u>Miasto <strong>${searchDto.city}</strong></u></h6>--%>
-<%--                        <h6><u>Ilość osób: <strong>${searchDto.person}</strong></u></h6>--%>
-<%--                        <h6><u>Data rozpoczęcia najmu: <strong>${searchDto.startDate}</strong></u></h6>--%>
-<%--                        <h6><u>Data zakończenia najmu: <strong>${searchDto.endDate}</strong></u></h6>--%>
-<%--                        <sec:authorize access="isAuthenticated()">--%>
-<%--                            <h6 style="color: red"><u>Wyszukiwanie nie obejmuje twoich obiektów</u></h6>--%>
-<%--                        </sec:authorize>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
+            <c:if test="${searchDto!=null}">
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-6">
+                        <h5 class="text-center">Wyszukiwanie dla:</h5>
+                        <h6><u>Kraj: <strong>${searchDto.country}</strong></u></h6>
+                        <h6><u>Miasto <strong>${searchDto.city}</strong></u></h6>
+                        <h6><u>Ilość osób: <strong>${searchDto.person}</strong></u></h6>
+                        <h6><u>Data rozpoczęcia najmu: <strong>${searchDto.startDate}</strong></u></h6>
+                        <h6><u>Data zakończenia najmu: <strong>${searchDto.endDate}</strong></u></h6>
+                        <sec:authorize access="isAuthenticated()">
+                            <h6 style="color: red"><u>Wyszukiwanie nie obejmuje twoich obiektów</u></h6>
+                        </sec:authorize>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${searchLongDto!=null}">
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-6">
+                        <h5 class="text-center">Wyszukiwanie dla:</h5>
+                        <h6><u>Kraj: <strong>${searchLongDto.country}</strong></u></h6>
+                        <h6><u>Miasto <strong>${searchLongDto.city}</strong></u></h6>
+                        <h6><u>Minimalna powierzchnia: <strong>${searchLongDto.area}</strong></u></h6>
+                        <h6><u>Data rozpoczęcia najmu: <strong>${searchLongDto.startDate}</strong></u></h6>
+                        <h6><u>Data zakończenia najmu: <strong>${searchLongDto.endDate}</strong></u></h6>
+                        <sec:authorize access="isAuthenticated()">
+                            <h6 style="color: red"><u>Wyszukiwanie nie obejmuje twoich obiektów</u></h6>
+                        </sec:authorize>
+                    </div>
+                </div>
+            </c:if>
             <c:forEach items="${apartments}" var="apartment">
 
                 <%--                    --%>
@@ -48,16 +63,18 @@
                         <div class="col-md-4">
                             <div class="card-body">
                                 <h5 class="card-title">${apartment.name}</h5>
+                                <c:if test="${apartment.rentWay.id!=3}">
                                 <p class="card-text"><spring:message code="DayPrice"/> ${apartment.apartmentPrice} <br>
                                     <spring:message code="RoomAmount"/> ${apartment.rooms.size()}</p>
-                                <p class="card-text"></p>
+                                </c:if>
                             </div>
                         </div>
                         <div class="col-md-4 row align-items-center">
                             <a href="/apartment/details/${apartment.id}" class="btn btn-info"><spring:message
                                     code="Details"/></a>
                             <c:if test="${user.id==apartment.owner.id}">
-                                <a href="/reservation/list/${apartment.id}" class="btn btn-info">Rezerwacje obiektu</a>
+                                <a href="/reservation/list/old/${apartment.id}" class="btn btn-info">Zrealizowane Rezerwacje</a>
+                                <a href="/reservation/list/actual/${apartment.id}" class="btn btn-info">Aktualne Rezerwacje</a>
                             </c:if>
                         </div>
                     </div>
