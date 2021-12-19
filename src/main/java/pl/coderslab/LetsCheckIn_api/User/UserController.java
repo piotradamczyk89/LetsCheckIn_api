@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
+import pl.coderslab.LetsCheckIn_api.HttpClient.JavaHttpClientDemo;
 import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
 import pl.coderslab.LetsCheckIn_api.SearchDto.SearchLongDto;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
+
+import java.util.concurrent.ExecutionException;
 
 
 @Controller
@@ -28,9 +31,10 @@ public class UserController {
 
     @GetMapping("/register")
     public String createUser(Model model) {
-        model.addAttribute("user",new User());
+        model.addAttribute("user", new User());
         return "/user/register";
     }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String createUser(User user) {
         userService.saveUser(user);
@@ -38,13 +42,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/app")
-    public String userMain (Model model, @AuthenticationPrincipal CurrentUser currentUser) {
-        model.addAttribute("user",currentUser.getUser());
-        model.addAttribute("countries",countryRepository.findAll());
-        model.addAttribute("searchDto",new SearchDto());
-        model.addAttribute("searchLongDto",new SearchLongDto());
+    public String userMain(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
+        model.addAttribute("user", currentUser.getUser());
+        model.addAttribute("countries", countryRepository.findAll());
+        model.addAttribute("searchDto", new SearchDto());
+        model.addAttribute("searchLongDto", new SearchLongDto());
+        JavaHttpClientDemo javaHttpClientDemo = new JavaHttpClientDemo();
+        javaHttpClientDemo.requestTransactions("maa");
+//        javaHttpClientDemo.requestAccounts("nara","matra");
 
-      //  model.addAttribute("dto",new DtoApartmentAndRoom());
+
+        //  model.addAttribute("dto",new DtoApartmentAndRoom());
         return "/user/app";
     }
 
@@ -54,14 +62,10 @@ public class UserController {
     }
 
 
-
 //    @ModelAttribute("user")
 //    public User user (@AuthenticationPrincipal CurrentUser currentUser) {
 //        return currentUser.getUser();
 //    }
-
-
-
 
 
 }
