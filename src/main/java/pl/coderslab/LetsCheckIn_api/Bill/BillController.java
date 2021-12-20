@@ -38,7 +38,7 @@ public class BillController {
     @RequestMapping("/edit/{billId}")
     public String edit(@AuthenticationPrincipal CurrentUser currentUser, Model model, @PathVariable Long billId) {
         Bill bill = billService.getById(billId);
-        if (currentUser.getUser().getId() == bill.getReservation().getApartment().getOwner().getId()) {
+        if (Objects.equals(currentUser.getUser().getId(), bill.getReservation().getApartment().getOwner().getId())) {
             model.addAttribute("billEdit", bill);
             return "/bill/edit";
         }
@@ -49,9 +49,9 @@ public class BillController {
     public String editPost(Bill bill, @PathVariable Long billId) {
         if(!bill.isPaid()) {
             return "redirect:/bill/list/" + bill.getReservation().getId();
-        }
+        } // nie aktulane
         billService.saveBill(bill);
-        if (bill.isPaid()) {
+        if (bill.isPaid()) { // przerzucić do serwisu ? warunek nie aktulany
             Bill nextBill = billService.createNextBill(bill);
             if(nextBill!=null) {
              billService.saveBill(nextBill);

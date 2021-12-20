@@ -16,15 +16,15 @@ import lombok.ToString;
 public class Transactions {
 
     @JsonProperty("transactions")
-    private Transactions__1 transactions;
+    private TransactionsSecond transactions;
 
     @JsonProperty("transactions")
-    public Transactions__1 getTransactions() {
+    public TransactionsSecond getTransactions() {
         return transactions;
     }
 
     @JsonProperty("transactions")
-    public void setTransactions(Transactions__1 transactions) {
+    public void setTransactions(TransactionsSecond transactions) {
         this.transactions = transactions;
     }
 

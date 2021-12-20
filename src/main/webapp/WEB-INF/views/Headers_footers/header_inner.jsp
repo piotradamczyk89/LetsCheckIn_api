@@ -19,7 +19,8 @@
     <link href="<c:url value="/resources/img/apple-touch-icon.png"/>" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -48,7 +49,7 @@
 
         <div class="row justify-content-center">
             <div class="col-xl-9 d-flex align-items-center justify-content-lg-between">
-                <h1 class="logo me-auto me-lg-0"><a href="index.html">KnightOne</a></h1>
+                <h1 class="logo me-auto me-lg-0"><a href="index.html">Let's Check in</a></h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -56,20 +57,28 @@
                     <ul>
                         <li><a class="nav-link scrollto active" href="/user/app">Szukaj noclegu</a></li>
 
-                        <li class="dropdown"><a href=""><span>Zarzadzaj swoimi obiektami</span> <i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown"><a href=""><span>Zarzadzaj swoimi obiektami</span> <i
+                                class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/apartment/add">Dodaj obiekt</a></li>
                                 <li><a href="/apartment/list">Zobcz liste obiektów</a></li>
-                                <li><a href="/reservation/list/owner/afterDeadline/">Nie opłacone rezerwacje w twoich obiektach</a></li>
+                                <li><a href="/reservation/list/owner/afterDeadline/">Nie opłacone rezerwacje w twoich
+                                    obiektach</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown"><a href="#"><span>Zobacz swoje rezerwacje</span> <i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown"><a href="#"><span>Zobacz swoje rezerwacje</span> <i
+                                class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="/reservation/list/history">Historia Rezerwacji</a></li>
                                 <li><a href="/reservation/list/actual">Aktualne Rezerwacje</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto active" href="/user/edit/${user.id}">Witaj ${user.userName}</a></li>
+                        <li class="dropdown"><a class="nav-link scrollto active" href="">Witaj ${user.userName}</a>
+                            <ul>
+                                <li><a href="/user/account/add">Podłacz konto</a></li>
+                                <li><a href="/reservation/checkAccount">Sprawdź rachunki</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->

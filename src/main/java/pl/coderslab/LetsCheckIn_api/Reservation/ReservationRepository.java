@@ -31,7 +31,7 @@ public interface ReservationRepository extends JpaRepository <Reservation,Long>{
    List<Reservation> allOwnerActualApartmentReservation (User owner, Apartment apartment);
 
 
-   @Query(value = "SELECT r.id,r.end_date,r.start_date,r.apartment_id,r.room_id,r.name,r.tenant_id from reservation r join apartment a on a.id = r.apartment_id where (Select count(b.id) from bill b where b.reservation_id=r.id and b.is_paid=false and b.expire_date<current_date)>0 and a.owner_id=1 order by r.start_date",nativeQuery = true)
+   @Query(value = "SELECT r.id,r.end_date,r.start_date,r.apartment_id,r.room_id,r.name,r.tenant_id from reservation r join apartment a on a.id = r.apartment_id where (Select count(b.id) from bill b where b.reservation_id=r.id and b.is_paid=false and b.expire_date<current_date)>0 and a.owner_id=?1 order by r.start_date",nativeQuery = true)
    Slice<Reservation> notPaidAfterDeadline (Long ownerId, Pageable pageable);
 
 
@@ -41,6 +41,10 @@ public interface ReservationRepository extends JpaRepository <Reservation,Long>{
            "(Select count(b.id) from bill b where b.reservation_id=r.id and b.is_paid=false and b.expire_date<current_date)=0 " +
            "and a.owner_id=?1 and a.id=?2 order by r.start_date;",nativeQuery = true)
    Slice<Reservation> notPaidBeforeDeadline (Long ownerId, Long apartmentId, Pageable pageable);
+
+
+    @Query(value = "SELECT r.id,r.end_date,r.start_date,r.apartment_id,r.room_id,r.name,r.tenant_id from reservation r join apartment a on a.id = r.apartment_id where (Select count(b.id) from bill b where b.reservation_id=r.id and b.is_paid=false)>0 and a.owner_id=?1 order by r.start_date",nativeQuery = true)
+   List <Reservation> notPaidReservation (Long ownerId);
 
 
    @Query(value = "SELECT r.id,r.apartment_id,r.end_date,r.name,r.room_id,r.start_date,r.tenant_id " +

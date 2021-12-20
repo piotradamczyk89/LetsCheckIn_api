@@ -23,6 +23,9 @@ public class User {
     private String email;
     private String password;
     private boolean enabled;
+    private String token;
+    private String refreshToken;
+    private String accountId;
 
     @ManyToMany (fetch = FetchType.EAGER)
     private Set<Role> roles;

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "currency",
@@ -19,7 +21,7 @@ public class TransactionAmount {
     @JsonProperty("currency")
     private String currency;
     @JsonProperty("amount")
-    private String amount;
+    private BigDecimal amount;
 
     @JsonProperty("currency")
     public String getCurrency() {
@@ -32,12 +34,12 @@ public class TransactionAmount {
     }
 
     @JsonProperty("amount")
-    public String getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
     @JsonProperty("amount")
-    public void setAmount(String amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

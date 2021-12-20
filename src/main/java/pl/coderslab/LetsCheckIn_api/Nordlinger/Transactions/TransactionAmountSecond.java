@@ -14,7 +14,7 @@ import lombok.ToString;
 })
 @Generated("jsonschema2pojo")
 @ToString
-public class TransactionAmount__1 {
+public class TransactionAmountSecond {
 
     @JsonProperty("currency")
     private String currency;

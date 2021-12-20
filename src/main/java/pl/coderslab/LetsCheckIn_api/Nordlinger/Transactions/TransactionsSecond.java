@@ -15,7 +15,7 @@ import lombok.ToString;
 })
 @Generated("jsonschema2pojo")
 @ToString
-public class Transactions__1 {
+public class TransactionsSecond {
 
     @JsonProperty("booked")
     private List<Booked> booked = null;

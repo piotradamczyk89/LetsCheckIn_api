@@ -26,13 +26,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        Role userRole = roleRepository.findByName("ROLE_USER");
-        Set<Role> roles= new HashSet<>();
-        roles.add(userRole);
-        user.setRoles(roles);
-        userRepository.save(user);
+        if (user.getId()!=null) {
+            userRepository.save(user);
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setEnabled(true);
+            Role userRole = roleRepository.findByName("ROLE_USER");
+            Set<Role> roles = new HashSet<>();
+            roles.add(userRole);
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
     }
 
 

@@ -18,19 +18,19 @@ import lombok.ToString;
 public class Pending {
 
     @JsonProperty("transactionAmount")
-    private TransactionAmount__1 transactionAmount;
+    private TransactionAmountSecond transactionAmount;
     @JsonProperty("valueDate")
     private String valueDate;
     @JsonProperty("remittanceInformationUnstructured")
     private String remittanceInformationUnstructured;
 
     @JsonProperty("transactionAmount")
-    public TransactionAmount__1 getTransactionAmount() {
+    public TransactionAmountSecond getTransactionAmount() {
         return transactionAmount;
     }
 
     @JsonProperty("transactionAmount")
-    public void setTransactionAmount(TransactionAmount__1 transactionAmount) {
+    public void setTransactionAmount(TransactionAmountSecond transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
 

@@ -8,6 +8,8 @@ import pl.coderslab.LetsCheckIn_api.Room.Room;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 import pl.coderslab.LetsCheckIn_api.User.User;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,5 +31,9 @@ public interface ReservationService {
     Slice<Reservation> notPaidApartmentBeforeDeadline (CurrentUser currentUser, Long apartmentId, Integer pageNumber, Integer amount);
 
     Slice<Reservation> oldApartmentReservation (CurrentUser currentUser, Long apartmentId, Integer pageNumber, Integer amount);
+
+    void checkAccount (CurrentUser currentUser, HttpServletRequest request, HttpServletResponse response);
+
+    List <Reservation> notPaidReservation (CurrentUser currentUser);
 
 }

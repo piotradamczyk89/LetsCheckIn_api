@@ -3,7 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="../Headers_footers/header_inner.jsp"/>
+<c:if test="${user!=null}">
+    <jsp:include page="../Headers_footers/header_inner.jsp"/>
+</c:if>
+<c:if test="${user==null}">
+    <jsp:include page="../Headers_footers/header.jsp"/>
+</c:if>
 <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
@@ -57,8 +62,10 @@
                 <div class="card mb-3" style="max-width: 720px;">
                     <div class="row g-0">
                         <div class="col-md-4">
+                            <c:if test="${apartment.photos.size()>0}">
                             <img src="<c:url value="../../../img/LetsCheckIn_pictures/${apartment.photos.get(0).id}"/>"
                                  class="img-fluid rounded-start" alt="...">
+                            </c:if>
                         </div>
                         <div class="col-md-4">
                             <div class="card-body">
@@ -86,8 +93,14 @@
                 <div class="card mb-3" style="max-width: 720px;">
                     <div class="row g-0">
                         <div class="col-md-4">
+                            <c:if test="${room.photos.size()>0}">
                             <img src="<c:url value="../../../img/LetsCheckIn_pictures/${room.photos.get(0).id}"/>"
                                  class="img-fluid rounded-start" alt="...">
+                            </c:if>
+                            <c:if test="${room.apartment.photos.size()>0}">
+                                <img src="<c:url value="../../../img/LetsCheckIn_pictures/${room.apartment.photos.get(0).id}"/>"
+                                     class="img-fluid rounded-start" alt="...">
+                            </c:if>
                         </div>
                         <div class="col-md-4">
                             <div class="card-body">

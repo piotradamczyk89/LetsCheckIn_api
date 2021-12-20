@@ -3,7 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="../Headers_footers/header_inner.jsp"/>
+<c:if test="${user!=null}">
+    <jsp:include page="../Headers_footers/header_inner.jsp"/>
+</c:if>
+<c:if test="${user==null}">
+    <jsp:include page="../Headers_footers/header.jsp"/>
+</c:if>
 <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->

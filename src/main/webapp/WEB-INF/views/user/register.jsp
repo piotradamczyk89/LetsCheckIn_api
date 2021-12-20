@@ -6,7 +6,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="../Headers_footers/header_inner.jsp"/>
+<c:if test="${user!=null}">
+    <jsp:include page="../Headers_footers/header_inner.jsp"/>
+</c:if>
+<c:if test="${user==null}">
+    <jsp:include page="../Headers_footers/header.jsp"/>
+</c:if>
 
 <main id="main">
     <section id="breadcrumbs" class="breadcrumbs">
@@ -30,7 +35,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form:form modelAttribute="user" method="post">
+                    <form:form modelAttribute="userNew" method="post">
                         <div><label> User Name : <form:input type="text" path="userName"/> </label></div>
                         <div><label> Password: <form:input type="password" path="password"/> </label></div>
                         <div><label> Phone: <form:input type="text" path="phone"/> </label></div>

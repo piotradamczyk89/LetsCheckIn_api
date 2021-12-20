@@ -20,6 +20,8 @@ import pl.coderslab.LetsCheckIn_api.Room.RoomService;
 import pl.coderslab.LetsCheckIn_api.Security.CurrentUser;
 import pl.coderslab.LetsCheckIn_api.User.User;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,7 +57,7 @@ public class ReservationController {
         reservationService.saveReservation(reservation);
         billService.saveBill(billService.createFirstBill(reservation));
         model.addAttribute("reservation", reservation);
-        return "redirect:/bill/list/"+reservation.getId();
+        return "redirect:/bill/list/" + reservation.getId();
     }
 
     @RequestMapping("/addRoom/{roomId}")
@@ -76,18 +78,19 @@ public class ReservationController {
         reservationService.saveReservation(reservation);
         billService.saveBill(billService.createFirstBill(reservation));
         model.addAttribute("reservation", reservation);
-        return "redirect:/bill/list/"+reservation.getId();
+        return "redirect:/bill/list/" + reservation.getId();
     }
 
     @RequestMapping("/list/actual/{apartmentId}")
     public String listApartActualReser(Model model, @PathVariable Long apartmentId, @AuthenticationPrincipal CurrentUser currentUser) {
-        List<Reservation> reservations = reservationService.allOwnerActualApartmentReservation(currentUser,apartmentService.getById(apartmentId));
+        List<Reservation> reservations = reservationService.allOwnerActualApartmentReservation(currentUser, apartmentService.getById(apartmentId));
         model.addAttribute("reservations", reservations);
         return "/reservation/list";
     }
+
     @RequestMapping("/list/old/{apartmentId}")
     public String listApartOldReser(Model model, @PathVariable Long apartmentId, @AuthenticationPrincipal CurrentUser currentUser) {
-        Slice<Reservation> reservations = reservationService.oldApartmentReservation(currentUser,apartmentId,0,5);
+        Slice<Reservation> reservations = reservationService.oldApartmentReservation(currentUser, apartmentId, 0, 5);
         model.addAttribute("reservations", reservations.toList());
         return "/reservation/list";
     }
@@ -109,7 +112,7 @@ public class ReservationController {
     @RequestMapping("/list/owner/afterDeadline/")
     public String listOwnerAfterDeadline(Model model, @AuthenticationPrincipal CurrentUser currentUser) {
         model.addAttribute("reservations",
-                reservationService.notPaidAfterDeadline(currentUser,0,10).toList());
+                reservationService.notPaidAfterDeadline(currentUser, 0, 10).toList());
         return "/reservation/list";
     }
 
@@ -118,8 +121,14 @@ public class ReservationController {
         Reservation reservation = reservationService.getById(reservationId);
         if (Objects.equals(reservation.getTenant().getId(), currentUser.getUser().getId())) {
             reservationService.delete(reservation);
-            return "redirect:/bill/list/"+reservationId;
+            return "redirect:/bill/list/" + reservationId;
         }
+        return "redirect:/user/app";
+    }
+
+    @RequestMapping("/checkAccount")
+    public String checkAccount(@AuthenticationPrincipal CurrentUser currentUser, HttpServletRequest request, HttpServletResponse response) {
+        reservationService.checkAccount(currentUser,request,response);
         return "redirect:/user/app";
     }
 

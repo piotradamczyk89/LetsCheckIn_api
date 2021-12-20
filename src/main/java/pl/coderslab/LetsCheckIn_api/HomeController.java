@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.LetsCheckIn_api.Apartment.ApartmentService;
 import pl.coderslab.LetsCheckIn_api.Country.Country;
 import pl.coderslab.LetsCheckIn_api.Country.CountryRepository;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchDto;
+import pl.coderslab.LetsCheckIn_api.SearchDto.SearchLongDto;
 import pl.coderslab.LetsCheckIn_api.User.User;
 import pl.coderslab.LetsCheckIn_api.User.UserService;
 
@@ -23,6 +25,8 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("countries",countryRepository.findAll());
         model.addAttribute("country",new Country());
+        model.addAttribute("searchDto", new SearchDto());
+        model.addAttribute("searchLongDto", new SearchLongDto());
         return "home";
     }
 
